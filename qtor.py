@@ -27,17 +27,17 @@ def get_access_token(client_informatin):
         print("\"client_secret\" is not defined in config file.")
         sys.exit()
 
+    schema = "https"
+    host   = "datamarket.accesscontrol.windows.net"
+    path   = "/v2/OAuth2-13"
+    url    = schema + "://" + host + path
+
     payload = {
         "client_id": client_informatin["client_id"],
         "client_secret": client_informatin["client_secret"],
         "scope": "http://api.microsofttranslator.com",
         "grant_type": "client_credentials"
     }
-
-    schema = "https"
-    host = "datamarket.accesscontrol.windows.net"
-    path = "/v2/OAuth2-13"
-    url = schema + "://" + host + path
 
     response = requests.post(url, data=payload).json()
     if "error" in response:
@@ -50,6 +50,11 @@ def get_access_token(client_informatin):
 
 
 def translate(access_token, text):
+    schema = "http"
+    host   = "api.microsofttranslator.com"
+    path   = "/v2/Ajax.svc/Translate"
+    url    = schema + "://" + host + path
+
     params = {
         "text": text.encode("utf8"),
         "from": "ja",
@@ -57,11 +62,6 @@ def translate(access_token, text):
         "contentType": "text/plain",
         "category": "general"
     }
-
-    schema = "http"
-    host = "api.microsofttranslator.com"
-    path = "/v2/Ajax.svc/Translate"
-    url = schema + "://" + host + path
     headers = {
         "Authorization": "Bearer %s" % access_token
     }
