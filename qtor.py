@@ -4,6 +4,7 @@
 import sys
 import requests
 import json
+import os
 
 
 def load_client_information(filename):
@@ -77,7 +78,9 @@ if __name__ == "__main__":
         print("\"text\" you want to translate is required.")
         sys.exit()
 
-    client_informatin = load_client_information("config.json")
+    config_filename = "config.json"
+    config_filepath = os.path.dirname(os.path.realpath(__file__)) + "/" + config_filename
+    client_informatin = load_client_information(config_filepath)
     access_token = get_access_token(client_informatin)
 
     text = sys.argv[1]
