@@ -1,7 +1,7 @@
 # qtor
-**Q**uick Transla**tor**
+**Q**uick Transla**tor** - simple translation command.
 
-Default translation mode is **English** to **Japanese**.
+Translation from English to Japanese and from Japanese to English is possible.
 
 # Usage
 1. Get [Microsoft DataMarket](https://datamarket.azure.com/home/) Account
@@ -14,6 +14,8 @@ Default translation mode is **English** to **Japanese**.
 ```console
 $ ./qtor.py 機能
 Features
+$ ./qtor.py Features
+機能
 ```
 
 # Author
