@@ -5,6 +5,7 @@ import sys
 import requests
 import json
 import os
+import re
 
 
 def load_client_information(filename):
@@ -48,8 +49,14 @@ def get_access_token(client_informatin):
 
     return access_token
 
+def detect_language(text):
+    english_pattern = r"^[a-zA-Z0-9]+\w*"
+    if re.match(english_pattern, text):
+        return {"from": "en", "to": "ja"}
+    else:
+        return {"from": "ja", "to": "en"}
 
-def translate(access_token, text):
+def translate(access_token, text, fromto):
     schema = "http"
     host   = "api.microsofttranslator.com"
     path   = "/v2/Ajax.svc/Translate"
@@ -57,8 +64,8 @@ def translate(access_token, text):
 
     params = {
         "text": text.encode("utf8"),
-        "from": "ja",
-        "to": "en",
+        "from": fromto["from"],
+        "to": fromto["to"],
         "contentType": "text/plain",
         "category": "general"
     }
@@ -84,5 +91,6 @@ if __name__ == "__main__":
     access_token = get_access_token(client_informatin)
 
     text = sys.argv[1]
-    translated_text = translate(access_token, text)
+    language = detect_language(text)
+    translated_text = translate(access_token, text, language)
     print(translated_text)
